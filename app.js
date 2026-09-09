@@ -1,15 +1,17 @@
 (() => {
   "use strict";
 
-  const STORAGE_KEY = "ggb.transactions";
+  const TABLE = "transactions";
 
   const CATEGORIES = {
     expense: ["식비", "교통", "생활", "문화/여가", "의료", "교육", "주거", "기타"],
     income: ["급여", "용돈", "부수입", "이자/투자", "기타"],
   };
 
+  const db = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
   /** @type {{id:string, type:'income'|'expense', date:string, category:string, amount:number, memo:string}[]} */
-  let transactions = loadTransactions();
+  let transactions = [];
   let currentType = "expense";
   let viewDate = new Date();
   viewDate.setDate(1);
@@ -32,13 +34,13 @@
   const nextMonthBtn = document.getElementById("nextMonth");
   const monthPickerEl = document.getElementById("monthPicker");
   const mainTitleEl = document.getElementById("mainTitle");
+  const submitBtn = form.querySelector(".submit-btn");
 
   // --- Init ---
-  function init() {
+  async function init() {
     dateInput.value = toDateInputValue(new Date());
     renderCategoryOptions();
     renderMonthLabel();
-    render();
 
     tabs.forEach((tab) => {
       tab.addEventListener("click", () => {
@@ -53,6 +55,9 @@
     nextMonthBtn.addEventListener("click", () => changeMonth(1));
     monthPickerEl.addEventListener("change", onMonthPick);
     txListEl.addEventListener("click", onListClick);
+
+    await loadTransactions();
+    render();
   }
 
   function changeMonth(delta) {
@@ -84,13 +89,12 @@
       .join("");
   }
 
-  function onSubmit(e) {
+  async function onSubmit(e) {
     e.preventDefault();
     const amount = Number(amountInput.value);
     if (!amount || amount <= 0) return;
 
     const tx = {
-      id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
       type: currentType,
       date: dateInput.value || toDateInputValue(new Date()),
       category: categorySelect.value,
@@ -98,8 +102,16 @@
       memo: memoInput.value.trim(),
     };
 
-    transactions.push(tx);
-    saveTransactions();
+    submitBtn.disabled = true;
+    const { data, error } = await db.from(TABLE).insert(tx).select().single();
+    submitBtn.disabled = false;
+
+    if (error) {
+      alert("저장에 실패했습니다: " + error.message);
+      return;
+    }
+
+    transactions.push(data);
 
     // jump view to the month of the added transaction
     const added = new Date(tx.date);
@@ -111,13 +123,19 @@
     render();
   }
 
-  function onListClick(e) {
+  async function onListClick(e) {
     const btn = e.target.closest(".tx-delete");
     if (!btn) return;
     const id = btn.dataset.id;
     if (!confirm("이 내역을 삭제할까요?")) return;
+
+    const { error } = await db.from(TABLE).delete().eq("id", id);
+    if (error) {
+      alert("삭제에 실패했습니다: " + error.message);
+      return;
+    }
+
     transactions = transactions.filter((t) => t.id !== id);
-    saveTransactions();
     render();
   }
 
@@ -166,22 +184,15 @@
       .join("");
   }
 
-  // --- Storage ---
-  function loadTransactions() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch {
-      return [];
+  // --- Storage (Supabase) ---
+  async function loadTransactions() {
+    const { data, error } = await db.from(TABLE).select("*").order("date", { ascending: false });
+    if (error) {
+      alert("데이터를 불러오지 못했습니다: " + error.message);
+      transactions = [];
+      return;
     }
-  }
-
-  function saveTransactions() {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
-    } catch (e) {
-      console.error("저장 실패:", e);
-    }
+    transactions = data.map((t) => ({ ...t, amount: Number(t.amount) }));
   }
 
   // --- Helpers ---
