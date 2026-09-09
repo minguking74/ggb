@@ -1,0 +1,82 @@
+<svg viewBox="0 0 1000 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="한국을 중심으로 그린 세계지도 위에 SJC2, E2A, APG, 2Africa, Grace Hopper 해저케이블을 표시한 지도">
+  <defs>
+    <linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d2b45"/>
+      <stop offset="100%" stop-color="#123a5e"/>
+    </linearGradient>
+    <radialGradient id="koreaGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="480" fill="url(#ocean)"/>
+
+  <!-- continents (stylized, Korea-centered layout: Europe/Africa on the left, Asia in the middle, Americas on the right) -->
+  <g fill="#3d6a55" stroke="#2c4f3f" stroke-width="1.5">
+    <!-- Europe -->
+    <path d="M70,80 C110,65 150,75 165,100 C175,120 155,140 125,145 C95,148 70,130 65,105 C63,95 65,87 70,80 Z"/>
+    <!-- Africa -->
+    <path d="M110,150 C150,140 200,150 220,190 C235,225 230,280 215,330 C205,365 195,400 175,415 C160,425 145,410 140,385 C130,340 115,260 105,200 C102,180 105,163 110,150 Z"/>
+    <!-- Middle East -->
+    <path d="M220,160 C250,150 280,160 285,185 C288,205 265,215 240,205 C225,198 215,175 220,160 Z"/>
+    <!-- India -->
+    <path d="M300,200 C330,190 355,205 365,240 C372,270 360,300 340,315 C325,325 310,310 305,285 C300,255 295,220 300,200 Z"/>
+    <!-- China -->
+    <path d="M370,110 C430,90 500,95 540,120 C560,135 555,160 535,175 C500,195 450,200 410,190 C385,183 370,165 365,145 C362,130 365,118 370,110 Z"/>
+    <!-- Japan -->
+    <path d="M580,130 C605,120 630,130 640,155 C648,175 635,195 615,205 C598,212 585,198 582,178 C580,160 575,140 580,130 Z"/>
+    <!-- Southeast Asia -->
+    <path d="M430,270 C470,255 520,260 555,275 C585,288 610,300 605,320 C600,338 570,345 540,340 C505,333 470,325 445,310 C428,300 422,285 430,270 Z"/>
+    <!-- Australia -->
+    <path d="M660,350 C700,338 745,345 765,370 C778,388 760,410 725,412 C695,413 668,398 660,375 C656,365 656,357 660,350 Z"/>
+    <!-- North America -->
+    <path d="M760,70 C830,50 900,65 930,105 C950,135 935,175 905,205 C880,230 850,235 820,215 C790,195 765,160 758,125 C755,105 755,85 760,70 Z"/>
+    <!-- South America -->
+    <path d="M840,270 C875,258 905,272 915,310 C925,355 910,410 885,445 C870,465 850,450 843,420 C833,375 828,310 840,270 Z"/>
+  </g>
+
+  <!-- Korea, centered and highlighted -->
+  <circle cx="556" cy="172" r="34" fill="url(#koreaGlow)"/>
+  <path d="M545,150 C558,145 568,155 566,172 C564,188 552,198 542,190 C534,183 536,163 545,150 Z" fill="#fbbf24" stroke="#b45309" stroke-width="1.5"/>
+  <text x="556" y="140" text-anchor="middle" font-family="-apple-system,'Segoe UI',sans-serif" font-size="13" font-weight="700" fill="#fbbf24">대한민국</text>
+
+  <!-- cable routes -->
+  <g fill="none" stroke-width="2.5" stroke-linecap="round">
+    <!-- SJC2: Singapore/SE Asia - Taiwan/HK - Japan -->
+    <path d="M530,320 Q580,248 615,165" stroke="#f59e0b" stroke-dasharray="1 6"/>
+    <!-- APG: China/Korea/Japan - Vietnam/Thailand/Singapore -->
+    <path d="M550,180 Q525,250 500,315" stroke="#4ade80" stroke-dasharray="1 6"/>
+    <!-- E2A: Japan - transpacific - US West Coast -->
+    <path d="M632,150 Q712,108 792,150" stroke="#22d3ee" stroke-dasharray="1 6"/>
+    <!-- 2Africa: Europe - around Africa - Middle East -->
+    <path d="M120,110 C90,180 80,280 100,350 C115,395 150,415 175,395 C195,378 190,330 180,280 C172,240 200,200 260,185" stroke="#a78bfa" stroke-dasharray="1 6"/>
+    <!-- Grace Hopper: US East Coast - transatlantic - UK/Spain (wraps at map edge) -->
+    <path d="M895,140 Q950,128 995,120" stroke="#fb7185" stroke-dasharray="1 6"/>
+    <path d="M5,80 Q40,86 70,92" stroke="#fb7185" stroke-dasharray="1 6"/>
+  </g>
+
+  <!-- landing points -->
+  <g fill="#f8fafc" stroke="#0d2b45" stroke-width="1">
+    <circle cx="530" cy="320" r="3"/>
+    <circle cx="615" cy="165" r="3"/>
+    <circle cx="500" cy="315" r="3"/>
+    <circle cx="632" cy="150" r="3"/>
+    <circle cx="792" cy="150" r="3"/>
+    <circle cx="120" cy="110" r="3"/>
+    <circle cx="260" cy="185" r="3"/>
+    <circle cx="895" cy="140" r="3"/>
+    <circle cx="70" cy="92" r="3"/>
+  </g>
+
+  <!-- labels -->
+  <g font-family="-apple-system,'Segoe UI',sans-serif" font-size="15" font-weight="700">
+    <text x="560" y="245" fill="#f59e0b">SJC2</text>
+    <text x="470" y="255" fill="#4ade80" font-size="12">APG</text>
+    <text x="690" y="118" fill="#22d3ee">E2A</text>
+    <text x="360" y="300" fill="#a78bfa">2Africa</text>
+    <text x="895" y="115" fill="#fb7185" font-size="13">Grace Hopper</text>
+  </g>
+
+  <text x="500" y="34" text-anchor="middle" font-family="-apple-system,'Segoe UI',sans-serif" font-size="17" font-weight="700" fill="#e2e8f0">Global Submarine Cable Network</text>
+</svg>

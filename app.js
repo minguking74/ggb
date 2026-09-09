@@ -30,6 +30,8 @@
   const currentMonthEl = document.getElementById("currentMonth");
   const prevMonthBtn = document.getElementById("prevMonth");
   const nextMonthBtn = document.getElementById("nextMonth");
+  const monthPickerEl = document.getElementById("monthPicker");
+  const mainTitleEl = document.getElementById("mainTitle");
 
   // --- Init ---
   function init() {
@@ -49,6 +51,7 @@
     form.addEventListener("submit", onSubmit);
     prevMonthBtn.addEventListener("click", () => changeMonth(-1));
     nextMonthBtn.addEventListener("click", () => changeMonth(1));
+    monthPickerEl.addEventListener("change", onMonthPick);
     txListEl.addEventListener("click", onListClick);
   }
 
@@ -58,8 +61,20 @@
     render();
   }
 
+  function onMonthPick() {
+    if (!monthPickerEl.value) return;
+    const [y, m] = monthPickerEl.value.split("-").map(Number);
+    viewDate = new Date(y, m - 1, 1);
+    renderMonthLabel();
+    render();
+  }
+
   function renderMonthLabel() {
-    currentMonthEl.textContent = `${viewDate.getFullYear()}년 ${viewDate.getMonth() + 1}월`;
+    const y = viewDate.getFullYear();
+    const m = viewDate.getMonth() + 1;
+    currentMonthEl.textContent = `${y}년 ${m}월`;
+    mainTitleEl.textContent = `💰 Jeon's Family의 ${y}년 ${m}월 가계부`;
+    monthPickerEl.value = `${y}-${String(m).padStart(2, "0")}`;
   }
 
   function renderCategoryOptions() {

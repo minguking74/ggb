@@ -64,6 +64,15 @@ header h1 {
   min-width: 90px;
 }
 
+#monthPicker {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 13px;
+  padding: 5px 6px;
+}
+
 .summary {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -266,4 +275,31 @@ header h1 {
   color: var(--text-muted);
   padding: 24px 0;
   font-size: 14px;
+}
+
+.cable-section {
+  margin-top: 20px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  text-align: center;
+}
+
+.cable-section img {
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+}
+
+.cable-caption {
+  margin: 10px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.cable-caption a {
+  color: var(--text-muted);
 }
